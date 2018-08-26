@@ -1,61 +1,249 @@
-var turnx = true;
-var play = true;
+// VARIABLES
 
-$(document).ready(function() {
-  $("#restart").click(restart);
-  $(".cell").click(function() {
-    if (play && $(this).text() == "") {
-      if (turnx) {
-        $(this)
-          .text("X")
-          .addClass("x");
-      } else {
-        $(this)
-          .text("O ")
-          .addClass("o");
+var human = "x"; // turn = 0
+var computer = "o"; // turn = 1
+var compMove;
+var turn = 0; // toggles btw 0 and 1 for switching turns
+
+var boardCheck; // function to check value in each cell
+var a1; // value within each cell
+var a2;
+var a3;
+var b1;
+var b2;
+var b3;
+var c1;
+var c2;
+var c3;
+
+var checkWin; // function that checks the board for winning combo
+var xWin = false; // true if X wins
+var oWin = false; // true if O wins
+var winAlert; // function that declares winner and restarts game
+
+var newGame;
+var clearBoard;
+
+// PLACES AN X OR O IN THE BOX WHEN CLICKED. TOGGLES.
+var newGame = function() {
+  $("td").one("click", function(event) {
+      if($(this).text() == "")
+      {
+          if (turn == 0) {
+            $(this).text(human);
+            boardCheck();
+            //   checkWin();
+            turn == 1;
+            compMove();
+            boardCheck();
+            checkWin();
+          }
       }
-      turnx = !turnx;
-      won();
-    }
   });
+};
+
+// INITIALIZES GAME - keep after var newGame
+$(document).ready(function() {
+  newGame();
 });
 
-function check(a, b, c) {
-  atext = $(a).text();
-  btext = $(b).text();
-  ctext = $(c).text();
-  if (atext == btext && btext == ctext && atext != "") {
-    play = false;
-    $(a).addClass("win");
-    $(b).addClass("win");
-    $(c).addClass("win");
-    alert("Player " + atext + " has won the game!");
-    return true;
+// COMP MOVE AI DETECTS IF THERE ARE TWO IN A ROW NEXT TO AN EMPTY CELL AND PLACES MOVE THERE
+var compMove = function() {
+  if (
+    a1 == "" &&
+    ((a3 == "x" && a2 == "x") ||
+      (c3 == "x" && b2 == "x") ||
+      (c1 == "x" && b1 == "x"))
+  ) {
+    $("#a1").text("o");
+    turn = 0;
   } else {
-    return false;
-  }
-}
-
-function won() {
-  if (check("#1", "#2", "#3")) {
-  } else if (check("#4", "#5", "#6")) {
-  } else if (check("#7", "#8", "#9")) {
-  } else if (check("#1", "#4", "#7")) {
-  } else if (check("#2", "#5", "#8")) {
-  } else if (check("#3", "#6", "#9")) {
-  } else if (check("#1", "#5", "#9")) {
-  } else if (check("#3", "#5", "#7")) {
-  } else {
-    if ($(".cell:empty").length == 0) {
-      alert("This game is a draw.");
-      play = false;
+    if (a2 == "" && ((a1 == "x" && a3 == "x") || (c2 == "x" && b2 == "x"))) {
+      $("#a2").text("o");
+      turn = 0;
+    } else {
+      if (
+        a3 == "" &&
+        ((a1 == "x" && a2 == "x") ||
+          (c1 == "x" && b2 == "x") ||
+          (c3 == "x" && b3 == "x"))
+      ) {
+        $("#a3").text("o");
+        turn = 0;
+      } else {
+        if (
+          c3 == "" &&
+          ((c1 == "x" && c2 == "x") ||
+            (a1 == "x" && b2 == "x") ||
+            (a3 == "x" && b3 == "x"))
+        ) {
+          $("#c3").text("o");
+          turn = 0;
+        } else {
+          if (
+            c1 == "" &&
+            ((c3 == "x" && c2 == "x") ||
+              (a3 == "x" && b2 == "x") ||
+              (a1 == "x" && b1 == "x"))
+          ) {
+            $("#c1").text("o");
+            turn = 0;
+          } else {
+            if (
+              c2 == "" &&
+              ((c3 == "x" && c1 == "x") || (a2 == "x" && b2 == "x"))
+            ) {
+              $("#c2").text("o");
+              turn = 0;
+            } else {
+              if (
+                b1 == "" &&
+                ((b3 == "x" && b2 == "x") || (a1 == "x" && c1 == "x"))
+              ) {
+                $("#b1").text("o");
+                turn = 0;
+              } else {
+                if (
+                  b3 == "" &&
+                  ((a3 == "x" && c3 == "x") || (b2 == "x" && b1 == "x"))
+                ) {
+                  $("#b3").text("o");
+                  turn = 0;
+                } else {
+                  if (
+                    b2 == "" &&
+                    ((a3 == "x" && c1 == "x") ||
+                      (c3 == "x" && a1 == "x") ||
+                      (b3 == "x" && b1 == "x") ||
+                      (c2 == "x" && a2 == "x"))
+                  ) {
+                    $("#b2").text("o");
+                    turn = 0;
+                  } else {
+                    // IF NO OPP TO BLOCK A WIN, THEN PLAY IN ONE OF THESE SQUARES
+                    if (b2 == "") {
+                      $("#b2").text("o");
+                      turn = 0;
+                    } else {
+                      if (a1 == "") {
+                        $("#a1").text("o");
+                        turn = 0;
+                      } else {
+                        if (c3 == "") {
+                          $("#c3").text("o");
+                          turn = 0;
+                        } else {
+                          if (c2 == "") {
+                            $("#c2").text("o");
+                            turn = 0;
+                          } else {
+                            if (b1 == "") {
+                              $("#b1").text("o");
+                              turn = 0;
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   }
-}
+};
 
-function restart() {
-  $(".cell")
-    .removeClass("x o win")
-    .text("");
-  play = true;
-}
+// CREATES A FUNCTION TO DETECT WHAT IS IN EACH BOX AFTER EACH MOVE
+boardCheck = function() {
+  a1 = $("#a1").html();
+  a2 = $("#a2").html();
+  a3 = $("#a3").html();
+  b1 = $("#b1").html();
+  b2 = $("#b2").html();
+  b3 = $("#b3").html();
+  c1 = $("#c1").html();
+  c2 = $("#c2").html();
+  c3 = $("#c3").html();
+};
+
+// CREATES A FUNCTION TO DETECT A WIN OR A TIE
+checkWin = function() {
+  // CHECKS IF X WON
+  if (
+    (a1 == a2 && a1 == a3 && a1 == "x") || //first row
+    (b1 == b2 && b1 == b3 && b1 == "x") || //second row
+    (c1 == c2 && c1 == c3 && c1 == "x") || //third row
+    (a1 == b1 && a1 == c1 && a1 == "x") || //first column
+    (a2 == b2 && a2 == c2 && a2 == "x") || //second column
+    (a3 == b3 && a3 == c3 && a3 == "x") || //third column
+    (a1 == b2 && a1 == c3 && a1 == "x") || //diagonal 1
+    (a3 == b2 && a3 == c1 && a3 == "x") //diagonal 2
+  ) {
+    xWin = true;
+    winAlert();
+  } else {
+    // CHECKS IF O WON
+    if (
+      (a1 == a2 && a1 == a3 && a1 == "o") || //first row
+      (b1 == b2 && b1 == b3 && b1 == "o") || //second row
+      (c1 == c2 && c1 == c3 && c1 == "o") || //third row
+      (a1 == b1 && a1 == c1 && a1 == "o") || //first column
+      (a2 == b2 && a2 == c2 && a2 == "o") || //second column
+      (a3 == b3 && a3 == c3 && a3 == "o") || //third column
+      (a1 == b2 && a1 == c3 && a1 == "o") || //diagonal 1
+      (a3 == b2 && a3 == c1 && a3 == "o") //diagonal 2
+    ) {
+      oWin = true;
+      winAlert();
+    } else {
+      // CHECKS FOR TIE GAME IF ALL CELLS ARE FILLED
+      if (
+        (a1 == "x" || a1 == "o") &&
+        (b1 == "x" || b1 == "o") &&
+        (c1 == "x" || c1 == "o") &&
+        (a2 == "x" || a2 == "o") &&
+        (b2 == "x" || b2 == "o") &&
+        (c2 == "x" || c2 == "o") &&
+        (a3 == "x" || a3 == "o") &&
+        (b3 == "x" || b3 == "o") &&
+        (c3 == "x" || c3 == "o")
+      ) {
+        alert("It's a tie!");
+        clearBoard();
+      }
+    }
+  }
+};
+
+// DECLARES WHO WON
+var winAlert = function() {
+  if (xWin == true) {
+    alert("You won!");
+    clearBoard(); // THIS DOESN'T WORK
+  } else {
+    if (oWin == true) {
+      alert("Sorry, you lose!");
+      clearBoard(); // THIS DOESN'T WORK
+    }
+  }
+};
+
+// NEWGAME BUTTON CLEARS THE BOARD, RESTARTS GAME, AND RESETS THE WINS
+var clearBoard = function() {
+  a1 = $("#a1").text("");
+  b1 = $("#b1").text("");
+  c1 = $("#c1").text("");
+  a2 = $("#a2").text("");
+  b2 = $("#b2").text("");
+  c2 = $("#c2").text("");
+  a3 = $("#a3").text("");
+  b3 = $("#b3").text("");
+  c3 = $("#c3").text("");
+  xWin = false;
+  oWin = false;
+  newGame();
+  location.reload();
+};

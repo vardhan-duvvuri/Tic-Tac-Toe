@@ -25,36 +25,74 @@ p {
     border: 4px solid #333333;
     background-color: #FFFFFF;
 }
-#board {
-    border: 2px solid #333333;
-    margin: auto;
-    width: 160px;
-    font-size: 18px;
-    background-color: #EEEEEE;
+/* UNIVERSAL STYLES */
+ .center {
+    margin-right: auto;
+    margin-left: auto;
 }
-.cell {
-    position: relative;
-    float: left;
-    width: 52px;
-    height: 38px;
-    border: 2px solid #333333;
-    padding-top: 12px;
-    font-weight: bold;
-    cursor: pointer;
+
+.italic {
+    font-style: italic;
+    text-decoration: underline;
+}
+/* ELEMENT STYLES */
+ h1, h4 {
+    text-align: center;
+    font-family: sans-serif;
+    color: #666666;
+    border: 0;
+}
+p {
+    text-align: center;
+    font-family: sans-serif;
+    line-height: 16pt;
+    color: #666666;
+}
+.button {
+    margin-left:auto;
+    margin-right:auto;
+    text-align: center;
+}
+#restart {
+    font-size: 12pt;
+    color: #666666;
+    background-color: #dedede;
+    padding: 5px 15px 5px 15px;
+}
+/* BOARD STYLES */
+#board-outer {
+    height: 134px;
+    width: 284px;
+    overflow: hidden;
+}
+#board {
+    border-spacing: 0;
+    margin-left: 0px;
+    margin-top: 0px;
+    width: 284px;
+    height: 134px;
+}
+.row{
+    margin-left: 40px;
+}
+td {
+    height: 40px;
+    width: 70px;
+    text-align: center;
+    font-family: sans-serif;
+    font-size: 20pt;
+    border-collapse: collapse;
+    border: 2px solid #B9E9F0;
+    text-transform: uppercase;
+    color: #999999;
 }
 .x {
-    color: white;
-    background-color: #A1C820;
+    width: 100%;
+    height: 100%;
+    background-color: blue;
 }
 .o {
-    color: white;
-    background-color: teal;
+    width: 100%;
+    height: 100%;
+    background-color: red;
 }
-.win {
-    color: #333333;
-    background-color: gold;
-}
-.clear {
-    clear: both;
-}
-/*******tic-tac-toe END******/
