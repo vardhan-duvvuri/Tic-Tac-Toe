@@ -2,4 +2,4 @@
 
 ## Authors
 
-* **Vardhan Duvvuri** - [Send Mail](vardhan.duvvuri@gmail.com)
+* **Vardhan Duvvuri** - (mail:vardhan.duvvuri@gmail.com)
